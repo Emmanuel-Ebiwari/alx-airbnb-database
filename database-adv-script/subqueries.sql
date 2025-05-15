@@ -1,3 +1,4 @@
+-- Fetch properties with average rating > 4.0 using a un-correlated subquery.
 SELECT *
 FROM PROPERTIES
 WHERE property_id IN (
@@ -7,6 +8,7 @@ WHERE property_id IN (
     HAVING AVG(rating) > 4.0
 );
 
+-- Fetch users with more than 3 bookings using a correlated subquery.
 SELECT *
 FROM USERS
 WHERE (
