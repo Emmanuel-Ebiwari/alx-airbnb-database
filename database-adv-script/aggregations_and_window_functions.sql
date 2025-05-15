@@ -9,17 +9,18 @@ LEFT JOIN BOOKINGS ON USERS.user_id = BOOKINGS.user_id
 GROUP BY USERS.user_id, USERS.first_name, USERS.last_name;
 
 -- Rank properties based on the total number of bookings they have received.
-SELECT *
-FROM PROPERTIES
-INNER JOIN (
-    SELECT property_id, booking_count,
-           RANK() OVER (ORDER BY booking_count DESC) AS rank
-    FROM (
-        SELECT property_id, COUNT(*) AS booking_count
-        FROM BOOKINGS
-        GROUP BY property_id
-    ) AS booking_counts
-) AS ranked_bookings
-ON PROPERTIES.property_id = ranked_bookings.property_id;
-
+SELECT 
+  P.property_id,
+  P.name,
+  ranked.booking_count,
+  ranked.row_num
+FROM PROPERTIES P
+JOIN (
+  SELECT 
+    property_id,
+    COUNT(*) AS booking_count,
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS row_num
+  FROM BOOKINGS
+  GROUP BY property_id
+) AS ranked ON P.property_id = ranked.property_id;
 
