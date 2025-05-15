@@ -13,13 +13,15 @@ SELECT
   P.property_id,
   P.name,
   ranked.booking_count,
-  ranked.row_num
+  ranked.booking_rank,
+  ranked.booking_row_number
 FROM PROPERTIES P
 JOIN (
   SELECT 
     property_id,
     COUNT(*) AS booking_count,
-    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS row_num
+    RANK() OVER (ORDER BY COUNT(*) DESC) AS booking_rank,
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS booking_row_number
   FROM BOOKINGS
   GROUP BY property_id
 ) AS ranked ON P.property_id = ranked.property_id;
