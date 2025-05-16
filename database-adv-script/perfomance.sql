@@ -1,5 +1,5 @@
 -- Initial query: Retrieves all bookings with user, property, and payment details
-SELECT *
+EXPLAIN SELECT *
 FROM BOOKINGS, USERS, PROPERTIES, PAYMENTS
 WHERE BOOKINGS.user_id = USERS.user_id
 AND BOOKINGS.property_id = PROPERTIES.property_id
@@ -7,7 +7,7 @@ AND BOOKINGS.booking_id = PAYMENTS.booking_id;
 
 
 -- Optimized query: Retrieves all bookings with user, property, and payment details
-SELECT 
+EXPLAIN SELECT 
   B.booking_id,
   B.start_date,
   B.end_date,
