@@ -1,6 +1,6 @@
 -- Create USERS table
 CREATE TABLE USERS (
-    user_id UUID PRIMARY KEY,          -- Primary key for Users
+    user_id CHAR(36) PRIMARY KEY,          -- Primary key for Users
     first_name VARCHAR(255) NOT NULL,  -- First name, cannot be null
     last_name VARCHAR(255) NOT NULL,   -- Last name, cannot be null
     email VARCHAR(255) UNIQUE NOT NULL, -- Email, must be unique and not null
@@ -12,8 +12,8 @@ CREATE TABLE USERS (
 
 -- Create PROPERTIES table
 CREATE TABLE PROPERTIES (
-    property_id UUID PRIMARY KEY,      -- Primary key for Properties
-    host_id UUID NOT NULL,             -- Foreign key to USERS (host)
+    property_id CHAR(36) PRIMARY KEY,      -- Primary key for Properties
+    host_id CHAR(36) NOT NULL,             -- Foreign key to USERS (host)
     name VARCHAR(255) NOT NULL,        -- Property name, cannot be null
     description TEXT NOT NULL,         -- Description, cannot be null
     location VARCHAR(255) NOT NULL,    -- Location, cannot be null
@@ -25,9 +25,9 @@ CREATE TABLE PROPERTIES (
 
 -- Create BOOKINGS table
 CREATE TABLE BOOKINGS (
-    booking_id UUID PRIMARY KEY,         -- Primary key for Bookings
-    property_id UUID NOT NULL,            -- Foreign key to PROPERTIES
-    user_id UUID NOT NULL,                -- Foreign key to USERS
+    booking_id CHAR(36) PRIMARY KEY,         -- Primary key for Bookings
+    property_id CHAR(36) NOT NULL,            -- Foreign key to PROPERTIES
+    user_id CHAR(36) NOT NULL,                -- Foreign key to USERS
     start_date DATE NOT NULL,             -- Start date of the booking, cannot be null
     end_date DATE NOT NULL,               -- End date of the booking, cannot be null
     total_price DECIMAL(10, 2) NOT NULL,  -- Total price for the booking, cannot be null
@@ -39,8 +39,8 @@ CREATE TABLE BOOKINGS (
 
 -- Create PAYMENTS table
 CREATE TABLE PAYMENTS (
-    payment_id UUID PRIMARY KEY,         -- Primary key for Payments
-    booking_id UUID NOT NULL,            -- Foreign key to BOOKINGS table
+    payment_id CHAR(36) PRIMARY KEY,         -- Primary key for Payments
+    booking_id CHAR(36) NOT NULL,            -- Foreign key to BOOKINGS table
     amount DECIMAL(10, 2) NOT NULL,       -- Amount of the payment, cannot be null
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Automatically set timestamp when payment is made
     payment_method ENUM('credit_card', 'paypal', 'stripe') NOT NULL, -- Payment method, must be one of these
@@ -49,9 +49,9 @@ CREATE TABLE PAYMENTS (
 
 -- Create REVIEWS table
 CREATE TABLE REVIEWS (
-    review_id UUID PRIMARY KEY,         -- Primary key for Reviews
-    property_id UUID NOT NULL,           -- Foreign key to PROPERTIES
-    user_id UUID NOT NULL,               -- Foreign key to USERS
+    review_id CHAR(36) PRIMARY KEY,         -- Primary key for Reviews
+    property_id CHAR(36) NOT NULL,           -- Foreign key to PROPERTIES
+    user_id CHAR(36) NOT NULL,               -- Foreign key to USERS
     rating INTEGER CHECK (rating >= 1 AND rating <= 5) NOT NULL, -- Rating, between 1 and 5
     comment TEXT NOT NULL,               -- Review comment, cannot be null
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Automatically set timestamp when created
@@ -61,9 +61,9 @@ CREATE TABLE REVIEWS (
 
 -- Create MESSAGES table
 CREATE TABLE MESSAGES (
-    message_id UUID PRIMARY KEY,         -- Primary key for Messages
-    sender_id UUID NOT NULL,             -- Foreign key to USERS (sender)
-    recipient_id UUID NOT NULL,          -- Foreign key to USERS (recipient)
+    message_id CHAR(36) PRIMARY KEY,         -- Primary key for Messages
+    sender_id CHAR(36) NOT NULL,             -- Foreign key to USERS (sender)
+    recipient_id CHAR(36) NOT NULL,          -- Foreign key to USERS (recipient)
     message_body TEXT NOT NULL,          -- Body of the message, cannot be null
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Automatically set timestamp when message is sent
     FOREIGN KEY (sender_id) REFERENCES USERS(user_id), -- Foreign key constraint to USERS table
